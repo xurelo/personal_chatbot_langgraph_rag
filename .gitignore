@@ -1,0 +1,9 @@
+# Python bytecode (archivos temporales de ejecución)
+__pycache__/
+*.py[cod]
+
+.env
+.venv/
+documents/
+.gradio/
+mi_chroma_db/

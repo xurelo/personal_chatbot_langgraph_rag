@@ -1,0 +1,1 @@
+Requires installing ffmpeg library for transcribing audio
