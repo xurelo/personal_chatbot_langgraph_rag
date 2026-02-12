@@ -12,7 +12,6 @@ class SimilarityRetriever:
         self.embed = HuggingFaceEmbeddings(
             model_name="sentence-transformers/all-MiniLM-L6-v2"
         )
-        index_name = "faiss_index"
         loader = DocumentLoader(root_folder_src)
         docs = loader.load_document_entities()
         child_splitter = RecursiveCharacterTextSplitter(
