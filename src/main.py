@@ -3,11 +3,21 @@ import os
 import gradio as gr
 
 from llm.audio import AudioTranscriber
+from llm.chatbot import ChatBotChain
 from llm.chatbot_graph import ChatBotGraph
+from llm.gdrivedoc_loader import GDriveDocumentLoader
+from llm.localdoc_loader import LocalDocumentLoader
+from llm.retriever import SimilarityRetriever
 
 path = os.path.dirname(os.path.abspath(__file__)) + os.path.sep + "../documents/"
 
-llm_chatbot = ChatBotGraph(path)
+docloader = LocalDocumentLoader(path)
+gdriveloader = GDriveDocumentLoader()
+
+
+retriever = SimilarityRetriever(gdriveloader)
+chatbot_chain = ChatBotChain(retriever)
+llm_chatbot = ChatBotGraph(chatbot_chain)
 transcriber = AudioTranscriber()
 
 

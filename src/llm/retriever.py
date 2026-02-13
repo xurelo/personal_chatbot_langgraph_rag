@@ -4,16 +4,16 @@ from langchain_classic.storage.in_memory import InMemoryStore
 from langchain_classic.text_splitter import RecursiveCharacterTextSplitter
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 
-from llm.docloader import DocumentLoader
+from llm.idocloader import IDocumentLoader
 
 
 class SimilarityRetriever:
-    def __init__(self, root_folder_src: str):
+    def __init__(self, docloader: IDocumentLoader):
         self.embed = HuggingFaceEmbeddings(
             model_name="sentence-transformers/all-MiniLM-L6-v2"
         )
-        loader = DocumentLoader(root_folder_src)
-        docs = loader.load_document_entities()
+        self.loader = docloader
+        docs = self.loader.load_document_entities()
         child_splitter = RecursiveCharacterTextSplitter(
             chunk_size=200, chunk_overlap=50
         )
