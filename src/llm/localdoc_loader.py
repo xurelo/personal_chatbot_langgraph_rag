@@ -2,12 +2,14 @@ import os
 
 from langchain_community.document_loaders import TextLoader
 
+from llm.idocloader import IDocumentLoader
 
-class DocumentLoader:
+
+class LocalDocumentLoader(IDocumentLoader):
     def __init__(self, root_folder_src: str):
         self.root_folder_src = root_folder_src
 
-    def find_documents(self, path=None):
+    def _find_documents(self, path=None):
         root_path = path if path else self.root_folder_src
         files = []
 
@@ -17,21 +19,14 @@ class DocumentLoader:
 
         return files
 
-    def get_document_entities(self, document_path: str):
+    def _get_document_entities(self, document_path: str):
         loader = TextLoader(document_path)
         return loader.load()
 
     def load_document_entities(self, path=None):
-        docs = self.find_documents(path)
+        docs = self._find_documents(path)
         entities = []
         for i, doc in enumerate(docs):
-            doc_entities = self.get_document_entities(doc["path"])
+            doc_entities = self._get_document_entities(doc["path"])
             entities.extend(doc_entities)
         return entities
-
-    def load_documents_with_paths(self, path=None):
-        docs = self.find_documents(path)
-        for i, doc in enumerate(docs):
-            docs[i]["documents"] = self.get_document_entities(doc["path"])
-
-        return docs

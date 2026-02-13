@@ -29,9 +29,9 @@ class ChatBotGraph:
 
         return workflow.compile(checkpointer=self.checkpoint_memory)
 
-    def __init__(self, context_root_folder):
+    def __init__(self, chatbot: ChatBotChain):
         self.checkpoint_memory = MemorySaver()
-        self.chatbot = ChatBotChain(context_root_folder)
+        self.chatbot = chatbot
         self.graph = self._build_graph()
 
     def _chatbot_node(self, state):

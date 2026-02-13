@@ -13,7 +13,7 @@ load_dotenv()
 
 
 class ChatBotChain:
-    def __init__(self, context_root_folder):
+    def __init__(self, retriever: SimilarityRetriever):
         api_key = os.getenv("GROK_API_KEY")
 
         self.chatbot = ChatGroq(
@@ -31,7 +31,7 @@ class ChatBotChain:
                 ("human", "{question}"),
             ]
         )
-        self.retriever = SimilarityRetriever(context_root_folder)
+        self.retriever = retriever
         self.rag_chain_manual = (
             {
                 "context": lambda x: self.retriever.as_retriever().invoke(
